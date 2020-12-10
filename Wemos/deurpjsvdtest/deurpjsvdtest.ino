@@ -58,10 +58,7 @@ void setup() {
     if (client.connect(server, 8888)) {
       Serial.println("socket connected");
    
-       delay(100);
-      client.println("Hello world");
-      client.println();
-      client.write("Hello world");
+
     }
  
 
@@ -83,23 +80,23 @@ void loop() {
 
   
 
-  if (client) {
-
-    while (client.connected()) {
-
-      while (client.available() > 0) {
-        char c = client.read();
-        Serial.write(c);
-        
-      }
-
-      delay(10);
-    }
-
-    client.stop();
-    Serial.println("Client disconnected");
-
-  }
+//  if (client) {
+//
+//    while (client.connected()) {
+//
+//      while (client.available() > 0) {
+//        char c = client.read();
+//        Serial.write(c);  
+//        
+//      }
+//
+//      delay(10);
+//    }
+//
+//    client.stop();
+//    Serial.println("Server disconnected");
+//
+//  }
 
 
 
