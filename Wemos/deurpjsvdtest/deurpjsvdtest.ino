@@ -9,7 +9,7 @@ const char* password = "microsoft";
 
 
 int status = WL_IDLE_STATUS;
-IPAddress server(192,168,137,63);  
+IPAddress server(192, 168, 137, 63);
 
 // Initialize the client library
 WiFiClient client;
@@ -42,7 +42,7 @@ void setup() {
   myservo.attach(D5);
   pinMode(D5, OUTPUT);
 
-  
+
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
@@ -55,12 +55,12 @@ void setup() {
 
 
 
-    if (client.connect(server, 8888)) {
-      Serial.println("socket connected");
-   
+  if (client.connect(server, 8888)) {
+    Serial.println("socket connected");
 
-    }
- 
+
+  }
+
 
 
 
@@ -78,27 +78,43 @@ void loop() {
 
 
 
-  
-
-//  if (client) {
-//
-//    while (client.connected()) {
-//
-//      while (client.available() > 0) {
-//        char c = client.read();
-//        Serial.write(c);  
-//        
-//      }
-//
-//      delay(10);
-//    }
-//
-//    client.stop();
-//    Serial.println("Server disconnected");
-//
-//  }
 
 
+  if (client) {
+
+    while (client.connected()) {
+
+      while (client.available() > 0) {
+        char c = client.read();
+        Serial.write(c);
+
+
+
+      }
+
+      delay(100);
+
+
+
+
+      //client.stop();
+      // Serial.println("Server disconnected");
+      //Serial.println("6");
+   
+      client.write("Hello im the wemos");
+      
+      //client.println("test 1");
+
+      Serial.println("Sended");
+    }
+
+
+
+
+
+  }
+
+ 
 
 
 
@@ -115,8 +131,8 @@ void loop() {
   Wire.write(byte(0x01));        //  Hex adress to set output
   Wire.write(byte(output << 4));   // set the output
   Wire.endTransmission();
- // Serial.print("Digital out: ");
- // Serial.println(output & 0x0F);
+  // Serial.print("Digital out: ");
+  // Serial.println(output & 0x0F);
 
 
   //Read PCA9554 inputs (DIO0-DIO3)
@@ -125,8 +141,8 @@ void loop() {
   Wire.endTransmission();
   Wire.requestFrom(0x38, 1);
   unsigned int inputs = Wire.read();
-//  Serial.print("Digital in: ");
-//  Serial.println(inputs & 0x0F);
+  //  Serial.print("Digital in: ");
+  //  Serial.println(inputs & 0x0F);
   input = inputs & 0x0f;
 
 
