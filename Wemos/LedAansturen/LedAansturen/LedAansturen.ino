@@ -1,5 +1,4 @@
-#include <Wire.h>
-#include <Servo.h>
+
 #include "ESP8266WiFi.h"
 
 const char* ssid = "MARKO";
@@ -8,38 +7,21 @@ const char* password = "microsoft";
 
 
 int status = WL_IDLE_STATUS;
-IPAddress server(192, 168, 137, 63);
+IPAddress server(192, 168, 137, 244);
 
 // Initialize the client library
 WiFiClient client;
 
-
-
-
-
-
-Servo myservo;
-
-//   0x36    i2c address MAX11647
-//   0x38    i2c address PCA9554A
-int ADDRESS0 = 0x36;  //Analog inputs
-int ADDRESS1 = 0x38;  //DI0-DI7
-
-
-
-unsigned int output = 0x01;      // set outputs DIO4-DIO7   tintedwindow connected to DIO4
-int input = 0;
-
+char c;
 
 
 void setup() {
 
-
+  pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(9600);
-  Wire.begin();
+
   delay(1000);
-  myservo.attach(D5);
-  pinMode(D5, OUTPUT);
+
 
 
   WiFi.begin(ssid, password);
@@ -60,13 +42,51 @@ void setup() {
 
   }
 
-
-void setup() {
-  // put your setup code here, to run once:
-
 }
 
+
 void loop() {
-  // put your main code here, to run repeatedly:
+
+
+
+
+  if (client) {
+
+    while (client.connected()) {
+
+      while (client.available() > 0) {
+         c = client.read();
+        Serial.write(c);
+
+
+     if (c == '0'){
+        digitalWrite(LED_BUILTIN, HIGH);
+      }
+      else if (c == '1'){
+        digitalWrite(LED_BUILTIN, LOW);
+      }
+
+     
+
+
+      }
+
+
+      //client.stop();
+      // Serial.println("Server disconnected");
+
+
+     // client.write("Hello im the wemos");
+   
+
+    //  Serial.println("Sended");
+    }
+
+
+
+
+
+  }
+
 
 }
